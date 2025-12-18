@@ -1,0 +1,47 @@
+ #include <stdio.h>
+
+/**
+ * Fonction : euclide_etendu
+ * -------------------------
+ * Calcule le PGCD de a et b ainsi que les coefficients x et y.
+ * Utilise des pointeurs pour retourner plusieurs valeurs.
+ */
+int euclide_etendu(int a, int b, int *x, int *y) {
+    // Cas de base
+    if (a == 0) {
+        *x = 0;
+        *y = 1;
+        return b;
+    }
+
+    int x1, y1; // Variables pour stocker les résultats des appels récursifs
+    int pgcd = euclide_etendu(b % a, a, &x1, &y1);
+
+    // Mise à jour de x et y en utilisant les résultats de la récursion
+    *x = y1 - (b / a) * x1;
+    *y = x1;
+
+    return pgcd;
+}
+
+int main() {
+    int a, b, x, y;
+
+    printf("--- Calculateur de PGCD et Théorème de Bézout ---\n");
+    printf("Entrez le premier nombre (a) : ");
+    scanf("%d", &a);
+    printf("Entrez le deuxième nombre (b) : ");
+    scanf("%d", &b);
+
+    int res = euclide_etendu(a, b, &x, &y);
+
+    printf("\nRésultats :\n");
+    printf("------------------------------------------\n");
+    printf("PGCD(%d, %d) = %d\n", a, b, res);
+    printf("Coefficients de Bézout : u = %d, v = %d\n", x, y);
+    printf("Équation : %d * (%d) + %d * (%d) = %d\n", a, x, b, y, res);
+    printf("------------------------------------------\n");
+
+    return 0;
+}
+
